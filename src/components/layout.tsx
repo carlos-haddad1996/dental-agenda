@@ -6,12 +6,12 @@ import NavBar from './navbar';
 
 const Layout: React.FC = ({ children }) => {
     return (
-        <ThemeProvider theme={theme}>
+        <>
             <NavBar />
             <Wrapper style={{ marginBottom: '80px' }}>
                 <main>{children}</main>
             </Wrapper>
-        </ThemeProvider>
+        </>
     );
 };
 

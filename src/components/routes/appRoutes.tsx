@@ -7,27 +7,31 @@ import {
     Switch,
 } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
-import { createBrowserHistory } from 'history';
+import * as H from 'history';
+import PrivateRoute from './privateRoute';
 import Login from '../../containers/Login';
 import Dashboard from '../../containers/Dashboard';
+import Auth from '../../containers/Auth/auth';
 
-const browserHistory = createBrowserHistory();
+interface AppRouterProps {
+    history: H.History;
+}
 
-const AppRoutes: React.FC = () => {
-    const loadRoutes = () => {
-        return (
-            <Switch>
-                <Route exact path="/" component={Login} />
-                <Route path="/dashboard" component={Dashboard} />
-            </Switch>
-        );
-    };
-
+const AppRoutes = ({ history }: AppRouterProps) => {
     return (
-        <Router history={browserHistory}>
-            <CssBaseline />
-            {loadRoutes()}
-        </Router>
+        <Auth>
+            <Router history={history}>
+                <CssBaseline />
+                <Switch>
+                    <Route exact path="/" component={Login} />
+                    <PrivateRoute
+                        path="/dashboard"
+                        component={Dashboard}
+                        componentName="Dashboard"
+                    />
+                </Switch>
+            </Router>
+        </Auth>
     );
 };
 

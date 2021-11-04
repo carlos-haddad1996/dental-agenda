@@ -15,8 +15,16 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
+import Avatar from '@mui/material/Avatar';
+import { auth } from '../firebase/config';
+import { useHistory } from 'react-router';
 
 const NavBar: React.FC = () => {
+    const history = useHistory();
+    const loggedUser = useSelector((state: RootState) => state.loggedUser);
+    const { fullName, photoUrl } = loggedUser;
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -27,6 +35,11 @@ const NavBar: React.FC = () => {
     const handleMenuClose = () => {
         setAnchorEl(null);
         // handleMobileMenuClose();
+    };
+
+    const handleLogout = () => {
+        auth.signOut();
+        history.push('/');
     };
 
     const menuId = 'primary-search-account-menu';
@@ -48,6 +61,7 @@ const NavBar: React.FC = () => {
         >
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={handleLogout}>{'Cerrar Sesión'}</MenuItem>
         </Menu>
     );
 
@@ -101,7 +115,7 @@ const NavBar: React.FC = () => {
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-                            <AccountCircle />
+                            <Avatar alt={fullName} src={photoUrl} />
                         </IconButton>
                     </Box>
                 </Toolbar>
