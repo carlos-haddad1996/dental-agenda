@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect, Route } from 'react-router-dom';
 import { RootState } from '../../store';
@@ -18,7 +17,7 @@ export const PrivateRoute = ({
     );
 
     if (!loggedUser) {
-        return <Redirect to="/login" />;
+        return <Redirect to="/" />;
     }
 
     return <Route component={Component} {...rest} />;

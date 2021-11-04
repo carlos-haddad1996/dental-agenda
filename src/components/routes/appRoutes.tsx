@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-    Route,
-    Router,
-    Redirect,
-    BrowserRouter,
-    Switch,
-} from 'react-router-dom';
+import { Route, Router, Switch } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import * as H from 'history';
 import PrivateRoute from './privateRoute';

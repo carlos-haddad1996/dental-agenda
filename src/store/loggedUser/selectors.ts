@@ -1,5 +1,4 @@
 import { RootState } from '../index';
-import { LoggedUserState } from './types';
 import { castDraft } from 'immer';
 
 export function getLoggedUser(state: RootState) {
