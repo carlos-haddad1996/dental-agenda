@@ -1,4 +1,4 @@
-import { getAnalytics } from 'firebase/analytics';
+// import { getAnalytics } from 'firebase/analytics';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 
@@ -15,7 +15,7 @@ const firebaseConfig = {
 export const app = firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
 export const provider = new firebase.auth.GoogleAuthProvider();
-const analytics = getAnalytics(app);
+// const analytics = getAnalytics(app);
 
 provider.setCustomParameters({ prompt: 'select_account' });
 
