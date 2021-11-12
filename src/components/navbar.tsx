@@ -89,15 +89,15 @@ const NavBar: React.FC = () => {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Perfil</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Mi Cuenta</MenuItem>
             <MenuItem onClick={handleLogout}>{'Cerrar Sesión'}</MenuItem>
         </Menu>
     );
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar position="fixed">
                 <Toolbar>
                     <IconButton
                         size="large"
