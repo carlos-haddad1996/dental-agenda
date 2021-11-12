@@ -67,8 +67,6 @@ const DashboardDialog = (props: DialogProps) => {
         setOpen(false);
     };
 
-    console.log({ event });
-
     return (
         <div>
             <DialogStyles onClose={handleClose} open={open}>
@@ -84,9 +82,9 @@ const DashboardDialog = (props: DialogProps) => {
                             .locale('es')
                             .format('L hh:mm a')}`}
                     </Typography>
-                    <Typography
-                        gutterBottom
-                    >{`End Date: ${event.end}`}</Typography>
+                    <Typography gutterBottom>{`End Date: ${moment(event.end)
+                        .locale('es')
+                        .format('L hh:mm a')}`}</Typography>
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleClose}>

@@ -11,7 +11,6 @@ import FullCalendar, {
     EventApi,
     EventClickArg,
     EventContentArg,
-    EventInput,
 } from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -26,26 +25,6 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-let eventGuid = 0;
-let todayStr = new Date().toISOString().replace(/T.*$/, ''); // YYYY-MM-DD of today
-
-const createEventId = () => {
-    return String(eventGuid++);
-};
-
-const INITIAL_EVENTS: EventInput[] = [
-    {
-        id: createEventId(),
-        title: 'All-day event',
-        start: todayStr,
-    },
-    {
-        id: createEventId(),
-        title: 'Timed event',
-        start: todayStr + 'T12:00:00',
-    },
-];
-
 const Dashboard: React.FC = () => {
     const [dateState, setDateState] = useState(new Date());
     const [events, setEvents] = useState([]);
@@ -54,35 +33,13 @@ const Dashboard: React.FC = () => {
     const [eventInformation, setEventInformation] = useState({});
     const [addEventMethod, setAddEventMethod] = useState({});
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
     useEffect(() => {
         setInterval(() => setDateState(new Date()), 1000);
     }, []);
 
-    const handleDateClick = () => {
-        alert('date clicked');
-    };
-
     const handleDateSelect = (selectInfo: DateSelectArg) => {
-        // let title = prompt('Please enter a new title for your event');
-        // let startDate = prompt('Please enter a start date for your event');
-        // let endDate = prompt('Please enter end date for your event');
         setOpenAddEvent(true);
-        let calendarApi = selectInfo.view.calendar;
-        setAddEventMethod(calendarApi);
-        // calendarApi.unselect();
-
-        // if (title) {
-        //     calendarApi.addEvent({
-        //         id: createEventId(),
-        //         title,
-        //         start: moment(startDate).format(),
-        //         end: moment(endDate).format(),
-        //     });
-        // }
+        setAddEventMethod(selectInfo);
     };
 
     const handleEventClick = (clickInfo: EventClickArg) => {

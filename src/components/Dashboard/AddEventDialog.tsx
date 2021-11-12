@@ -11,6 +11,9 @@ import IconButton from '@mui/material/IconButton';
 import DateTimePicker from '@mui/lab/DateTimePicker';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import moment from 'moment';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -79,11 +82,13 @@ const AddEventDialog = (props: AddEventDialogProps) => {
 
     const [eventTitle, setEventTitle] = React.useState('');
 
+    const [isAllDay, setIsAllDay] = React.useState<boolean>(false);
+
     const handleClose = () => {
         setOpen(false);
     };
 
-    const handleTitleChange = (e: any) => {
+    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEventTitle(e.target.value);
     };
 
@@ -95,13 +100,23 @@ const AddEventDialog = (props: AddEventDialogProps) => {
         setEndDateValue(newValue);
     };
 
+    const handleAllDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsAllDay(e.target.checked);
+    };
+
     const addEventHandler = () => {
-        addEventMethod.unselect();
-        addEventMethod.addEvent({
+        let calendarApi = addEventMethod.view.calendar;
+        calendarApi.unselect();
+        calendarApi.addEvent({
             id: createEventId(),
             title: eventTitle,
-            start: moment(startDateValue).format('YYYY-MM-DD'),
-            end: moment(endDateValue).format('YYYY-MM-DD'),
+            start: isAllDay
+                ? addEventMethod.startStr
+                : moment(startDateValue).format(),
+            end: isAllDay
+                ? addEventMethod.endStr
+                : moment(endDateValue).format(),
+            allDay: isAllDay,
         });
         setOpen(false);
     };
@@ -127,6 +142,7 @@ const AddEventDialog = (props: AddEventDialogProps) => {
                             </Grid>
                             <Grid item>
                                 <DateTimePicker
+                                    disabled={isAllDay}
                                     label="Inicio"
                                     value={startDateValue}
                                     onChange={handleStartDateChange}
@@ -137,6 +153,7 @@ const AddEventDialog = (props: AddEventDialogProps) => {
                             </Grid>
                             <Grid item>
                                 <DateTimePicker
+                                    disabled={isAllDay}
                                     label="Fin"
                                     value={endDateValue}
                                     onChange={handleEndDateChange}
@@ -144,6 +161,18 @@ const AddEventDialog = (props: AddEventDialogProps) => {
                                         <TextField {...params} />
                                     )}
                                 />
+                            </Grid>
+                            <Grid item>
+                                <FormGroup>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                onChange={handleAllDayChange}
+                                            />
+                                        }
+                                        label="All Day"
+                                    />
+                                </FormGroup>
                             </Grid>
                         </Grid>
                     </DialogContent>
